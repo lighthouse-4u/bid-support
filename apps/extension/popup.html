@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 320px; padding: 12px; font-family: system-ui, sans-serif; font-size: 14px; margin: 0; }
+    h2 { margin: 0 0 8px; font-size: 16px; }
+    .last-copied { background: #f0f0f0; padding: 8px; border-radius: 6px; max-height: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 12px; }
+    .actions { display: flex; flex-direction: column; gap: 8px; }
+    button, a { padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer; text-align: center; text-decoration: none; color: #333; }
+    button.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+    input { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    label { display: block; margin-bottom: 4px; font-weight: 500; }
+    .error { color: #b91c1c; font-size: 12px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h2>Bidding Bot</h2>
+  <div class="last-copied" id="lastCopied">Last copied: (none)</div>
+  <div class="actions">
+    <a href="http://localhost:3000" target="_blank">Open dashboard</a>
+    <div>
+      <label for="token">Paste token from dashboard</label>
+      <input type="password" id="token" placeholder="Paste JWT token">
+      <button type="button" id="saveToken" class="primary">Save token</button>
+      <div class="error" id="tokenError"></div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

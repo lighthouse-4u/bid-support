@@ -1,0 +1,20 @@
+{
+  "name": "bidding-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"be,fe\" -c \"green,blue\" \"cd apps/be && npm run dev\" \"cd apps/fe && npm run dev\"",
+    "build": "concurrently -n \"be,fe\" -c \"green,blue\" \"cd apps/be && npm run build\" \"cd apps/fe && npm run build\"",
+    "start": "concurrently -n \"be,fe\" -c \"green,blue\" \"cd apps/be && npm run start\" \"cd apps/fe && npm run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
