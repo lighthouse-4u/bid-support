@@ -14,7 +14,6 @@ import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DashboardPromptsRouteImport } from './routes/dashboard/prompts'
 import { Route as DashboardConnectRouteImport } from './routes/dashboard/connect'
 
@@ -43,11 +42,6 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardPromptsRoute = DashboardPromptsRouteImport.update({
   id: '/prompts',
   path: '/prompts',
@@ -66,7 +60,6 @@ export interface FileRoutesByFullPath {
   '/sign-up': typeof SignUpRoute
   '/dashboard/connect': typeof DashboardConnectRoute
   '/dashboard/prompts': typeof DashboardPromptsRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -75,7 +68,6 @@ export interface FileRoutesByTo {
   '/sign-up': typeof SignUpRoute
   '/dashboard/connect': typeof DashboardConnectRoute
   '/dashboard/prompts': typeof DashboardPromptsRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -86,7 +78,6 @@ export interface FileRoutesById {
   '/sign-up': typeof SignUpRoute
   '/dashboard/connect': typeof DashboardConnectRoute
   '/dashboard/prompts': typeof DashboardPromptsRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -98,7 +89,6 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/dashboard/connect'
     | '/dashboard/prompts'
-    | '/demo/tanstack-query'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -107,7 +97,6 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/dashboard/connect'
     | '/dashboard/prompts'
-    | '/demo/tanstack-query'
     | '/dashboard'
   id:
     | '__root__'
@@ -117,7 +106,6 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/dashboard/connect'
     | '/dashboard/prompts'
-    | '/demo/tanstack-query'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -126,7 +114,6 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -166,13 +153,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard/prompts': {
       id: '/dashboard/prompts'
       path: '/prompts'
@@ -211,7 +191,6 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

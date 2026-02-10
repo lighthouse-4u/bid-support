@@ -4,7 +4,7 @@ import { Box, Button, HStack } from "@chakra-ui/react";
 import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute("/dashboard")({
-  beforeLoad: ({ context }) => {
+  beforeLoad: () => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) throw redirect({ to: "/sign-in" });
   },

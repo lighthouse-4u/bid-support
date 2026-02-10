@@ -1,80 +1,150 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useRouterState } from '@tanstack/react-router'
 
 import { useState } from 'react'
-import { Home, Menu, Network, X } from 'lucide-react'
+import {
+  Box,
+  Drawer,
+  Flex,
+  HStack,
+  IconButton,
+  Text,
+} from '@chakra-ui/react'
+import { Gavel, Home, LayoutDashboard, LogIn, Menu, UserPlus, X } from 'lucide-react'
+
+import { useAuth } from '@/lib/auth-context'
+
+const navLinkProps = {
+  p: 3,
+  rounded: 'lg',
+  _hover: { bg: 'gray.700' },
+  transition: 'colors',
+  mb: 2,
+} as const
+
+const activeLinkProps = {
+  ...navLinkProps,
+  bg: 'cyan.600',
+  _hover: { bg: 'cyan.700' },
+} as const
+
+function NavLink({
+  to,
+  icon: Icon,
+  label,
+  onClose,
+}: {
+  to: string
+  icon: React.ComponentType<{ size?: number }>
+  label: string
+  onClose: () => void
+}) {
+  const routerState = useRouterState()
+  const isActive = routerState.location.pathname === to
+  return (
+    <Link to={to} onClick={onClose}>
+      <HStack gap={3} {...(isActive ? activeLinkProps : navLinkProps)}>
+        <Icon size={20} />
+        <Text fontWeight="medium">{label}</Text>
+      </HStack>
+    </Link>
+  )
+}
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const { token } = useAuth()
 
   return (
     <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu size={24} />
-        </button>
-        <h1 className="ml-4 text-xl font-semibold">
-          <Link to="/">
-            <img
-              src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
-              className="h-10"
-            />
-          </Link>
-        </h1>
-      </header>
-
-      <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+      <Box
+        as="header"
+        p={4}
+        display="flex"
+        alignItems="center"
+        bg="gray.800"
+        color="white"
+        shadow="lg"
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold">Navigation</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-            aria-label="Close menu"
-          >
-            <X size={24} />
-          </button>
-        </div>
-
-        <nav className="flex-1 p-4 overflow-y-auto">
-          <Link
-            to="/"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Home size={20} />
-            <span className="font-medium">Home</span>
-          </Link>
-
-          {/* Demo Links Start */}
-
-          <Link
-            to="/demo/tanstack-query"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Network size={20} />
-            <span className="font-medium">TanStack Query</span>
-          </Link>
-
-          {/* Demo Links End */}
-        </nav>
-      </aside>
+        <Drawer.Root
+          open={open}
+          onOpenChange={({ open: o }) => setOpen(o)}
+          placement="start"
+          size="sm"
+        >
+          <Drawer.Trigger asChild>
+            <IconButton
+              aria-label="Open menu"
+              variant="ghost"
+              colorPalette="gray"
+              _hover={{ bg: 'gray.700' }}
+            >
+              <Menu size={24} color="white" />
+            </IconButton>
+          </Drawer.Trigger>
+          <Drawer.Backdrop />
+          <Drawer.Positioner>
+            <Drawer.Content bg="gray.900" color="white" shadow="2xl">
+              <Flex
+                alignItems="center"
+                justifyContent="space-between"
+                p={4}
+                borderBottomWidth="1px"
+                borderColor="gray.700"
+              >
+                <Drawer.Title asChild>
+                  <Text fontSize="xl" fontWeight="bold">
+                    Navigation
+                  </Text>
+                </Drawer.Title>
+                <Drawer.CloseTrigger asChild>
+                  <IconButton
+                    aria-label="Close menu"
+                    variant="ghost"
+                    colorPalette="gray"
+                    _hover={{ bg: 'gray.800' }}
+                  >
+                    <X size={24} color="white" />
+                  </IconButton>
+                </Drawer.CloseTrigger>
+              </Flex>
+              <Drawer.Body flex={1} p={4} overflowY="auto">
+                <NavLink to="/" icon={Home} label="Home" onClose={() => setOpen(false)} />
+                {token ? (
+                  <NavLink
+                    to="/dashboard"
+                    icon={LayoutDashboard}
+                    label="Dashboard"
+                    onClose={() => setOpen(false)}
+                  />
+                ) : (
+                  <>
+                    <NavLink
+                      to="/sign-in"
+                      icon={LogIn}
+                      label="Sign in"
+                      onClose={() => setOpen(false)}
+                    />
+                    <NavLink
+                      to="/sign-up"
+                      icon={UserPlus}
+                      label="Sign up"
+                      onClose={() => setOpen(false)}
+                    />
+                  </>
+                )}
+              </Drawer.Body>
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Drawer.Root>
+        <Link to="/">
+          <HStack gap={2} ml={4}>
+            <Gavel size={24} />
+            <Text as="span" fontSize="xl" fontWeight="semibold">
+              Bidding Bot
+            </Text>
+          </HStack>
+        </Link>
+      </Box>
     </>
   )
 }

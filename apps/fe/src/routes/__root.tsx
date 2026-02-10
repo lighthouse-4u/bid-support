@@ -4,8 +4,6 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '../components/Header'
 
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
-
 import type { QueryClient } from '@tanstack/react-query'
 
 interface MyRouterContext {
@@ -26,7 +24,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             name: 'Tanstack Router',
             render: <TanStackRouterDevtoolsPanel />,
           },
-          TanStackQueryDevtools,
         ]}
       />
     </>

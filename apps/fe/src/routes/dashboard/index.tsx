@@ -18,7 +18,7 @@ export const Route = createFileRoute("/dashboard/")({
 
 function DashboardPage() {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset } = useForm<Form>({
+  const { register, handleSubmit, reset } = useForm<Form>({
     resolver: zodResolver(schema),
     defaultValues: { key: "" },
   });
