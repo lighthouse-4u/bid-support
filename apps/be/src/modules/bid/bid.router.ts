@@ -20,7 +20,7 @@ router.post("/generate", async (req, res) => {
     res.status(400).json({ error: "keyword and copiedText required" });
     return;
   }
-  const modelToUse = model && ALLOWED_MODELS.includes(model as (typeof ALLOWED_MODELS)[number]) ? model : "gpt-4o";
+  const modelToUse = model && ALLOWED_MODELS.includes(model as (typeof ALLOWED_MODELS)[number]) ? model : "gpt-4o-mini";
   const normalizedKeyword = keyword.trim().toLowerCase().replace(/\s+/g, "");
   const prompt = await promptRepo().findOne({
     where: { userId: req.userId!, keyword: normalizedKeyword },

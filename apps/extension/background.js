@@ -19,7 +19,7 @@ async function handleGenerateBid(keyword, copiedText) {
   const token = stored[STORAGE_KEYS.token];
   if (!token) throw new Error("Not logged in. Open the extension popup and paste your token from the dashboard.");
   const textToUse = copiedText != null ? copiedText : (stored[STORAGE_KEYS.lastCopied] ?? "");
-  const model = stored[STORAGE_KEYS.model] || "gpt-4o";
+  const model = stored[STORAGE_KEYS.model] || "gpt-4o-mini";
   const res = await fetch(`${API_URL}/api/bid/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },

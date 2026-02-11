@@ -1,5 +1,5 @@
 const STORAGE_KEYS = { lastCopied: "lastCopied", token: "token", model: "model" };
-const DEFAULT_MODEL = "gpt-4o";
+const DEFAULT_MODEL = "gpt-4o-mini";
 
 chrome.storage.local.get(["lastCopied", "model"]).then(({ lastCopied, model }) => {
   const el = document.getElementById("lastCopied");
