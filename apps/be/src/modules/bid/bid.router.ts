@@ -12,12 +12,15 @@ router.use(authenticateToken);
 const promptRepo = () => AppDataSource.getRepository(Prompt);
 const userRepo = () => AppDataSource.getRepository(User);
 
+const ALLOWED_MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4o-nano"] as const;
+
 router.post("/generate", async (req, res) => {
-  const { keyword, copiedText } = req.body as { keyword?: string; copiedText?: string };
+  const { keyword, copiedText, model } = req.body as { keyword?: string; copiedText?: string; model?: string };
   if (!keyword || typeof keyword !== "string" || copiedText === undefined) {
     res.status(400).json({ error: "keyword and copiedText required" });
     return;
   }
+  const modelToUse = model && ALLOWED_MODELS.includes(model as (typeof ALLOWED_MODELS)[number]) ? model : "gpt-4o";
   const normalizedKeyword = keyword.trim().toLowerCase().replace(/\s+/g, "");
   const prompt = await promptRepo().findOne({
     where: { userId: req.userId!, keyword: normalizedKeyword },
@@ -42,7 +45,7 @@ router.post("/generate", async (req, res) => {
   const openai = new OpenAI({ apiKey });
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: modelToUse,
       messages: [{ role: "user", content: messageContent }],
       max_tokens: 1024,
     });

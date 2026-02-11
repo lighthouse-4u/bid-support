@@ -9,7 +9,7 @@
     .actions { display: flex; flex-direction: column; gap: 8px; }
     button, a { padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer; text-align: center; text-decoration: none; color: #333; }
     button.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
-    input { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    input, select { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; }
     label { display: block; margin-bottom: 4px; font-weight: 500; }
     .error { color: #b91c1c; font-size: 12px; margin-top: 4px; }
   </style>
@@ -18,7 +18,16 @@
   <h2>Bidding Bot</h2>
   <div class="last-copied" id="lastCopied">Last copied: (none)</div>
   <div class="actions">
-    <a href="http://localhost:3000" target="_blank">Open dashboard</a>
+    <div>
+      <label for="model">Model</label>
+      <select id="model">
+        <option value="gpt-4o">gpt-4o</option>
+        <option value="gpt-4o-mini">gpt-4o-mini</option>
+        <option value="gpt-4-turbo">gpt-4-turbo</option>
+        <option value="gpt-4o-nano">gpt-4o-nano</option>
+      </select>
+    </div>
+    <a href="https://bot.fusion-tech.dev" target="_blank">Open dashboard</a>
     <div>
       <label for="token">Paste token from dashboard</label>
       <input type="password" id="token" placeholder="Paste JWT token">
