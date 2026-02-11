@@ -1,9 +1,17 @@
-const STORAGE_KEYS = { lastCopied: "lastCopied", token: "token" };
+const STORAGE_KEYS = { lastCopied: "lastCopied", token: "token", model: "model" };
+const DEFAULT_MODEL = "gpt-4o";
 
-chrome.storage.local.get("lastCopied").then(({ lastCopied }) => {
+chrome.storage.local.get(["lastCopied", "model"]).then(({ lastCopied, model }) => {
   const el = document.getElementById("lastCopied");
   const text = lastCopied || "";
   el.textContent = "Last copied: " + (text ? text.slice(0, 80) + (text.length > 80 ? "…" : "") : "(none)");
+  const modelSelect = document.getElementById("model");
+  if (modelSelect) modelSelect.value = model || DEFAULT_MODEL;
+});
+
+document.getElementById("model").addEventListener("change", (e) => {
+  const value = e.target.value || DEFAULT_MODEL;
+  chrome.storage.local.set({ [STORAGE_KEYS.model]: value });
 });
 
 document.getElementById("saveToken").addEventListener("click", () => {
