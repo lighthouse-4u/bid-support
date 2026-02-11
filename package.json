@@ -7,9 +7,9 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -n \"be,fe\" -c \"green,blue\" \"cd apps/be && npm run dev\" \"cd apps/fe && npm run dev\"",
-    "build": "concurrently -n \"be,fe\" -c \"green,blue\" \"cd apps/be && npm run build\" \"cd apps/fe && npm run build\"",
-    "start": "concurrently -n \"be,fe\" -c \"green,blue\" \"cd apps/be && npm run start\" \"cd apps/fe && npm run start\""
+    "dev": "concurrently -n \"be,fe\" -c \"green,blue\" \"npm run dev -w be\" \"npm run dev -w fe\"",
+    "build": "concurrently -n \"be,fe\" -c \"green,blue\" \"npm run build -w be\" \"npm run build -w fe\"",
+    "start": "npm start -w be"
   },
   "keywords": [],
   "author": "",
